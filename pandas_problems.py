@@ -38,3 +38,23 @@ def rearrange_products_table(products: pd.DataFrame) -> pd.DataFrame:
     return p2.dropna()
 
     #w sql trzeba użyć union
+
+
+# 1683. Invalid Tweets
+
+import pandas as pd
+
+def invalid_tweets(tweets: pd.DataFrame) -> pd.DataFrame:
+    t = tweets 
+
+    return t.loc[t["content"].str.len() > 15, ["tweet_id"]]
+
+
+# 2356. Number of Unique Subjects Taught by Each Teacher
+
+import pandas as pd
+
+def count_unique_subjects(teacher: pd.DataFrame) -> pd.DataFrame:
+    t = teacher
+
+    return t.groupby(["teacher_id", "subject_id"]).count()

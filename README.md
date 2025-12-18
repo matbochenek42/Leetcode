@@ -13,7 +13,7 @@ Niniejsze Repozytorium zawiera wszystkie rozwiązane przeze mnie problemy na Lee
 
 Mój profil na Leetcode znajduje się [tutaj](https://leetcode.com/u/SmO7BWmsiz/)
 
-Stan aktualizacji: 17.11.2025 r.
+Stan aktualizacji: 18.12.2025 r.
 </p>
 
 ## 🧱 Struktura Repozytorium

@@ -712,3 +712,155 @@ GROUP BY
     user_id
 
 
+--1251. Average Selling Price
+
+-- Write your PostgreSQL query statement below
+
+WITH pom1 AS
+(
+    SELECT
+        p.product_id,
+        u.purchase_date,
+        SUM(units*price) AS avg
+    FROm
+        prices p
+    LEFT JOIN
+        unitssold u ON u.product_id = p.product_id AND u.purchase_date >= p.start_date AND u.purchase_date <= p.end_date
+    GROUP BY
+        p.product_id,
+        u.purchase_date
+), pom2 AS
+(
+    SELECT
+        pom1.product_id,
+        SUM(avg) as avg
+    FROM
+        pom1
+    GROUP BY
+        pom1.product_id
+), pom3 AS
+(
+    SELECT
+        u.product_id,
+        SUM(units) AS divide
+    FROM
+        unitssold u
+    GROUP BY
+        u.product_id
+)
+SELECT
+    pom2.product_id,
+    CASE 
+        WHEN ROUND(pom2.avg / pom3.divide, 2) IS NULL THEN 0
+        ELSE ROUND(pom2.avg / pom3.divide, 2)
+    END AS average_price 
+FROM
+    pom2
+LEFT JOIN
+    pom3 ON pom2.product_id = pom3.product_id
+
+
+-- 1527. Patients With a Condition
+
+# Write your MySQL query statement below
+
+SELECT
+    patient_id,
+    patient_name,
+    conditions
+FROM
+    patients
+WHERE
+    conditions LIKE 'DIAB1%' OR conditions LIKE '% DIAB1%'
+
+
+--1633. Percentage of Users Attended a Contest
+
+# Write your MySQL query statement below
+
+WITH u AS
+(
+    SELECT
+        COUNT(user_id) AS dzielnik
+    FROM
+        users
+)
+SELECT
+    r.contest_id,
+    ROUND(COUNT(r.user_id) / dzielnik * 100,2) AS percentage
+FROM
+    register AS r
+CROSS JOIN
+    u
+GROUP BY
+    r.contest_id
+ORDER BY
+    percentage DESC,
+    r.contest_id ASC
+
+
+
+--1667. Fix Names in a Table
+
+# Write your MySQL query statement below
+
+SELECT
+    user_id,
+    CONCAT(UPPER(LEFT(name, 1)), LOWER(SUBSTRING(name, 2))) AS name
+FROM
+    users
+ORDER BY
+    user_id
+
+--1667. Fix Names in a Table
+
+SELECT
+    user_id,
+    CONCAT(UPPER(LEFT(name, 1)), LOWER(SUBSTRING(name, 2))) AS name
+FROM
+    users
+ORDER BY
+    user_id
+
+
+-- 1729. Find Followers Count
+
+# Write your MySQL query statement below
+
+SELECT
+    user_id,
+    COUNT(follower_id) AS followers_count
+FROM
+    followers
+GROUP BY
+    user_id
+ORDER BY
+    user_id
+
+
+-- 1661. Average Time of Process per Machine
+
+# Write your MySQL query statement below
+WITH pom AS 
+(
+    SELECT
+        machine_id,
+        COUNT(DISTINCT process_id) AS num
+    FROM
+        activity
+    GROUP BY
+        machine_id
+)
+SELECT
+    a.machine_id,
+    ROUND(SUM(a2.timestamp - a.timestamp) / pom.num, 3) AS processing_time
+FROM
+    activity AS a
+JOIN
+    activity AS a2 ON a.machine_id = a2.machine_id AND a.process_id = a2.process_id AND a2.activity_type = "end"
+JOIN
+    pom ON a.machine_id = pom.machine_id
+WHERE
+    a.activity_type = "start"
+GROUP BY
+    a.machine_id

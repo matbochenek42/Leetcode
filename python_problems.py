@@ -270,3 +270,26 @@ class Solution:
 
 
         return odp
+    
+
+# 69. Sqrt(x)
+
+import math
+class Solution:
+    def mySqrt(self, x: int) -> int:
+        if x == 0:
+            return x
+        for i in range(1, x+1):
+            if i**2 == x:
+              return i
+            else:
+                return math.floor(x**(1/2))
+            
+
+# 268. Missing Number
+
+class Solution:
+    def missingNumber(self, nums: List[int]) -> int:
+          for i in range(len(nums)+1):
+             if i not in nums:
+               return i
